@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize Pi SDK
   Pi.init({ 
     version: "2.0", 
-    apiKey: "YOUR_API_KEY", // Replace with your actual API key
+    apiKey: "e32jjkd9pepgtt7nm2p0ms4yda4lvrczs7vsz5wqytnci3mlu60mjedwbbrowxqy", // Replace with your actual API key
     sandbox: true // Set to false for production
   });
   
