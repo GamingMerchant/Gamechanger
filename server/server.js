@@ -5,7 +5,7 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000; // Updated to work with Render's default port
 
 // Middleware
 app.use(cors({
@@ -86,7 +86,7 @@ app.post('/api/payments/complete', async (req, res) => {
   }
 });
 
-// Webhook endpoint for Pi Network callbacks
+// Webhook endpoint for Pi Network callbacks (POST)
 app.post('/api/payments/webhook', (req, res) => {
   const paymentData = req.body;
   console.log('Received webhook from Pi Network:', paymentData);
@@ -95,6 +95,14 @@ app.post('/api/payments/webhook', (req, res) => {
   // Update your database based on payment status
   
   res.status(200).json({ received: true });
+});
+
+// Added GET handler for webhook testing
+app.get('/api/payments/webhook', (req, res) => {
+  res.status(200).json({ 
+    message: 'Webhook endpoint is working (GET)', 
+    note: 'Pi Network will use POST requests to this endpoint, not GET' 
+  });
 });
 
 // Start the server
