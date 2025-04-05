@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi Network Integration Test - RetroArcade</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Pi Network SDK -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script src="js/pi-payments.js"></script>
+    <script src="js/pi-test.js"></script>
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #000;
+            border: 2px solid #0f0;
+            border-radius: 10px;
+        }
+        
+        .test-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #111;
+            border: 1px solid #0f0;
+            border-radius: 5px;
+        }
+        
+        .test-button {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-family: 'Press Start 2P', cursive;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .test-button:hover {
+            background-color: #00ff00;
+            box-shadow: 0 0 10px #0f0;
+        }
+        
+        .test-button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        
+        #status {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #111;
+            border: 1px solid #0f0;
+            color: #0f0;
+            font-family: monospace;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-text">LOADING...</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <h1>RETRO<span>ARCADE</span></h1>
+            <p>Pi Network Integration Test</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#games">Games</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#high-scores">High Scores</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="test-container">
+            <h2>PI NETWORK SANDBOX TEST</h2>
+            <p>This page allows you to test the Pi Network integration in sandbox mode.</p>
+            
+            <div class="test-section">
+                <h3>AUTHENTICATION TEST</h3>
+                <p>Test Pi Network authentication flow:</p>
+                <button id="test-auth-btn" class="test-button">TEST AUTHENTICATION</button>
+            </div>
+            
+            <div class="test-section">
+                <h3>PAYMENT TEST</h3>
+                <p>Test Pi Network payment flow (requires authentication first):</p>
+                <button id="test-payment-btn" class="test-button" disabled>TEST PAYMENT</button>
+            </div>
+            
+            <div class="test-section">
+                <h3>TEST RESULTS</h3>
+                <div id="status">
+                    <div>[System] Waiting for tests to run...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RetroArcade - Pi Network Edition. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

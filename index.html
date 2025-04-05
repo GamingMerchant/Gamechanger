@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroArcade - Pi Network Edition</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Pi Network SDK -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script>
+        // Initialize Pi SDK with version 2.0
+        document.addEventListener('DOMContentLoaded', function() {
+            Pi.init({ version: "2.0" });
+            console.log("Pi SDK initialized");
+        });
+    </script>
+</head>
+<body>
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-text">LOADING...</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <h1>RETRO<span>ARCADE</span></h1>
+            <p>Classic Games Reimagined</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#games">Games</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#high-scores">High Scores</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="welcome">
+            <h2>WELCOME TO THE ARCADE</h2>
+            <p>Step back in time to the golden age of gaming with our collection of classic arcade games, reimagined for the modern web. Experience the nostalgia of the 80s and 90s arcade scene with authentic retro graphics and gameplay.</p>
+            <p>All games feature both keyboard and touch controls, so you can play on any device. Challenge yourself to beat your high score or compete with friends!</p>
+        </section>
+
+        <section id="games" class="games">
+            <h2>SELECT YOUR GAME</h2>
+            <div class="game-grid">
+                <div class="game-card">
+                    <img src="assets/images/snake-game.png" alt="Snake Game">
+                    <div class="game-info">
+                        <h3>SNAKE</h3>
+                        <p>Guide your snake to eat food and grow longer, but don't crash into yourself or the walls!</p>
+                        <a href="snake.html" class="play-button">PLAY NOW</a>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="assets/images/pong-game.png" alt="Pong Game">
+                    <div class="game-info">
+                        <h3>PONG</h3>
+                        <p>The classic table tennis simulation. Score points by getting the ball past your opponent's paddle!</p>
+                        <a href="pong.html" class="play-button">PLAY NOW</a>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="assets/images/tetris-game.png" alt="Tetris Game">
+                    <div class="game-info">
+                        <h3>TETRIS</h3>
+                        <p>Arrange falling blocks to create complete lines. How many lines can you clear?</p>
+                        <a href="tetris.html" class="play-button">PLAY NOW</a>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="assets/images/space-invaders-game.png" alt="Space Invaders Game">
+                    <div class="game-info">
+                        <h3>SPACE INVADERS</h3>
+                        <p>Defend Earth from alien invaders! Shoot them down before they reach the bottom of the screen.</p>
+                        <a href="space-invaders.html" class="play-button">PLAY NOW</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pi-features" class="pi-features">
+            <h2>PI NETWORK FEATURES</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>PREMIUM FEATURES</h3>
+                    <p>Unlock special game modes and features using Pi cryptocurrency!</p>
+                    <button id="authenticate-button" class="pi-button">AUTHENTICATE WITH PI</button>
+                </div>
+                <div class="feature-card">
+                    <h3>GLOBAL LEADERBOARDS</h3>
+                    <p>Compete with Pi Network users worldwide and earn Pi rewards for top scores!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>EXTRA LIVES</h3>
+                    <p>Watch ads or use Pi to get extra lives and continue your game!</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="high-scores" class="high-scores">
+            <h2>HIGH SCORES</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Player</th>
+                        <th>Score</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Snake</td>
+                        <td>PLAYER1</td>
+                        <td>1200</td>
+                        <td>2025-04-01</td>
+                    </tr>
+                    <tr>
+                        <td>Pong</td>
+                        <td>PLAYER2</td>
+                        <td>21-15</td>
+                        <td>2025-04-02</td>
+                    </tr>
+                    <tr>
+                        <td>Tetris</td>
+                        <td>PLAYER3</td>
+                        <td>15000</td>
+                        <td>2025-04-03</td>
+                    </tr>
+                    <tr>
+                        <td>Space Invaders</td>
+                        <td>PLAYER4</td>
+                        <td>8750</td>
+                        <td>2025-04-04</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="about" class="about">
+            <h2>ABOUT RETRO ARCADE</h2>
+            <p>RetroArcade is a passion project dedicated to preserving the magic of classic arcade games. Our games are built using modern web technologies but maintain the authentic look and feel of the originals.</p>
+            <p>All games are built from scratch using JavaScript and HTML5 Canvas, with no external libraries or game engines. This ensures fast performance and authentic gameplay on all devices.</p>
+            <p>We've added modern features like responsive design and touch controls, making these classics accessible to a new generation of gamers while still appealing to those who remember the original arcade cabinets.</p>
+            <p>This Pi Network edition includes special features that integrate with the Pi cryptocurrency ecosystem!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RetroArcade - Pi Network Edition. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Pi Network Authentication
+        document.getElementById('authenticate-button').addEventListener('click', function() {
+            // Define the scopes needed for your app
+            const scopes = ['payments'];
+            
+            // Callback for incomplete payments
+            function onIncompletePaymentFound(payment) {
+                console.log('Incomplete payment found!', payment);
+                // Handle incomplete payment
+            }
+            
+            // Authenticate the user
+            Pi.authenticate(scopes, onIncompletePaymentFound)
+                .then(function(auth) {
+                    console.log('Authentication successful');
+                    console.log('User: ', auth.user);
+                    
+                    // Update UI to show authenticated state
+                    document.getElementById('authenticate-button').textContent = 'AUTHENTICATED';
+                    document.getElementById('authenticate-button').classList.add('authenticated');
+                    
+                    // You could store the auth data or update UI here
+                })
+                .catch(function(error) {
+                    console.error('Authentication error:', error);
+                    alert('Authentication failed. Please try again.');
+                });
+        });
+    </script>
+</body>
+</html>

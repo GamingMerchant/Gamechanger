@@ -1,0 +1,16 @@
+{
+  "name": "pi-retro-games-server",
+  "version": "1.0.0",
+  "description": "Server-side component for Pi Network integration with RetroArcade",
+  "main": "payment-server.js",
+  "scripts": {
+    "start": "node payment-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1"
+  }
+}

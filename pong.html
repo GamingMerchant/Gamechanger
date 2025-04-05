@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game - RetroArcade Pi Edition</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Pi Network SDK -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script>
+        // Initialize Pi SDK with version 2.0
+        document.addEventListener('DOMContentLoaded', function() {
+            Pi.init({ version: "2.0" });
+            console.log("Pi SDK initialized");
+        });
+    </script>
+</head>
+<body>
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-text">LOADING...</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <h1>RETRO<span>ARCADE</span></h1>
+            <p>Classic Games Reimagined</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#games">Games</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#high-scores">High Scores</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <a href="index.html#games" class="back-button">← BACK TO GAMES</a>
+        
+        <h2 class="game-title">PONG</h2>
+        
+        <div class="game-container">
+            <canvas id="game-canvas"></canvas>
+            
+            <div class="pi-features">
+                <button id="unlock-multiplayer" class="pi-button">UNLOCK MULTIPLAYER MODE (π 2.00)</button>
+                <button id="watch-ad-for-boost" class="pi-button">WATCH AD FOR PADDLE BOOST</button>
+            </div>
+            
+            <div class="game-instructions">
+                <h3>HOW TO PLAY</h3>
+                <ul>
+                    <li>↑ Move Paddle Up</li>
+                    <li>↓ Move Paddle Down</li>
+                    <li>SPACE Pause/Resume</li>
+                    <li>ENTER Restart (when game over)</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RetroArcade - Pi Network Edition. All rights reserved.</p>
+    </footer>
+
+    <script src="games/pong.js"></script>
+    <script>
+        // Pi Network Payment Integration
+        document.getElementById('unlock-multiplayer').addEventListener('click', function() {
+            // First authenticate if not already authenticated
+            const scopes = ['payments'];
+            
+            function onIncompletePaymentFound(payment) {
+                console.log('Incomplete payment found!', payment);
+                // Handle incomplete payment
+            }
+            
+            Pi.authenticate(scopes, onIncompletePaymentFound)
+                .then(function(auth) {
+                    console.log('Authentication successful');
+                    
+                    // Create payment for multiplayer mode
+                    return Pi.createPayment({
+                        // Amount of π to be paid
+                        amount: 2.00,
+                        // Explanation of the payment - shown to the user
+                        memo: "Unlock Multiplayer Mode in Pong",
+                        // Metadata for your own usage
+                        metadata: { gameId: "pong", item: "multiplayer_mode", quantity: 1 },
+                    }, {
+                        // Callbacks you need to implement
+                        onReadyForServerApproval: function(paymentId) {
+                            console.log('Ready for server approval with payment ID:', paymentId);
+                            // In a real implementation, you would make an API call to your server
+                            // Your server would then approve the payment with the Pi server
+                            
+                            // For demo purposes, we'll simulate success
+                            setTimeout(function() {
+                                alert('Payment approved! Multiplayer mode unlocked.');
+                                // Enable multiplayer mode
+                                if (typeof enableMultiplayerMode === 'function') {
+                                    enableMultiplayerMode();
+                                }
+                            }, 2000);
+                        },
+                        onReadyForServerCompletion: function(paymentId, txid) {
+                            console.log('Ready for server completion with payment ID:', paymentId, 'and transaction ID:', txid);
+                            // In a real implementation, your server would complete the payment
+                        },
+                        onCancel: function(paymentId) {
+                            console.log('Payment cancelled with payment ID:', paymentId);
+                            alert('Payment was cancelled.');
+                        },
+                        onError: function(error, payment) {
+                            console.error('Payment error:', error);
+                            alert('There was an error processing your payment. Please try again.');
+                        }
+                    });
+                })
+                .catch(function(error) {
+                    console.error('Authentication error:', error);
+                    alert('Authentication failed. Please try again.');
+                });
+        });
+        
+        // Pi Network Ad Integration
+        document.getElementById('watch-ad-for-boost').addEventListener('click', function() {
+            // In a real implementation, you would use Pi's ad API
+            // For this demo, we'll simulate watching an ad
+            alert('Ad is playing... Please wait.');
+            
+            // Simulate ad completion after 3 seconds
+            setTimeout(function() {
+                alert('Thanks for watching the ad! Your paddle has been boosted for the next game.');
+                // Apply paddle boost
+                if (typeof applyPaddleBoost === 'function') {
+                    applyPaddleBoost();
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

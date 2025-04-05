@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Image Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #111;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #0f0;
+        }
+        button {
+            background-color: #000;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0f0;
+            color: #000;
+        }
+        canvas {
+            border: 1px solid #0f0;
+            margin: 20px auto;
+            display: block;
+        }
+        .output {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #000;
+            padding: 10px;
+            border: 1px solid #0f0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Game Image Generator</h1>
+        <p>Click the buttons below to generate preview images for your games.</p>
+        
+        <div>
+            <button id="generateSnake">Generate Snake Image</button>
+            <button id="generatePong">Generate Pong Image</button>
+            <button id="generateTetris">Generate Tetris Image</button>
+            <button id="generateSpaceInvaders">Generate Space Invaders Image</button>
+        </div>
+        
+        <canvas id="gameCanvas" width="300" height="200"></canvas>
+        
+        <div>
+            <button id="downloadImage">Download Current Image</button>
+        </div>
+        
+        <div class="output">
+            <p>Instructions:</p>
+            <ol>
+                <li>Click on a game button to generate its preview image</li>
+                <li>Click "Download Current Image" to save the image</li>
+                <li>Upload the downloaded images to your GitHub repository in the assets/images folder</li>
+                <li>Make sure to name them: snake-game.png, pong-game.png, tetris-game.png, and space-invaders-game.png</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+            let currentImageName = '';
+            
+            // Generate Snake game preview
+            document.getElementById('generateSnake').addEventListener('click', function() {
+                // Black background
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Green snake
+                ctx.fillStyle = '#00FF00';
+                ctx.fillRect(100, 100, 10, 10); // Head
+                ctx.fillRect(90, 100, 10, 10);  // Body segment 1
+                ctx.fillRect(80, 100, 10, 10);  // Body segment 2
+                ctx.fillRect(70, 100, 10, 10);  // Body segment 3
+                
+                // Red food
+                ctx.fillStyle = '#FF0000';
+                ctx.fillRect(150, 100, 10, 10);
+                
+                // Text
+                ctx.font = '20px monospace';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillText('SNAKE', 120, 50);
+                ctx.font = '12px monospace';
+                ctx.fillText('Score: 42', 120, 180);
+                
+                // Border
+                ctx.strokeStyle = '#00FF00';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+                
+                currentImageName = 'snake-game.png';
+            });
+            
+            // Generate Pong game preview
+            document.getElementById('generatePong').addEventListener('click', function() {
+                // Black background
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Paddles
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(20, 70, 10, 60); // Left paddle
+                ctx.fillRect(270, 50, 10, 60); // Right paddle
+                
+                // Ball
+                ctx.fillRect(140, 90, 10, 10);
+                
+                // Center line
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(150, 0);
+                ctx.lineTo(150, 200);
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.stroke();
+                
+                // Score
+                ctx.font = '30px monospace';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillText('3', 130, 30);
+                ctx.fillText('5', 160, 30);
+                
+                // Text
+                ctx.font = '20px monospace';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillText('PONG', 120, 180);
+                
+                // Border
+                ctx.setLineDash([]);
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+                
+                currentImageName = 'pong-game.png';
+            });
+            
+            // Generate Tetris game preview
+            document.getElementById('generateTetris').addEventListener('click', function() {
+                // Black background
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Game board outline
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(100, 20, 100, 160);
+                
+                // Tetris pieces
+                // L piece
+                ctx.fillStyle = '#FFA500'; // Orange
+                ctx.fillRect(110, 30, 20, 20);
+                ctx.fillRect(110, 50, 20, 20);
+                ctx.fillRect(110, 70, 20, 20);
+                ctx.fillRect(130, 70, 20, 20);
+                
+                // Square piece
+                ctx.fillStyle = '#FFFF00'; // Yellow
+                ctx.fillRect(150, 90, 20, 20);
+                ctx.fillRect(170, 90, 20, 20);
+                ctx.fillRect(150, 110, 20, 20);
+                ctx.fillRect(170, 110, 20, 20);
+                
+                // Line piece
+                ctx.fillStyle = '#00FFFF'; // Cyan
+                ctx.fillRect(110, 130, 20, 20);
+                ctx.fillRect(130, 130, 20, 20);
+                ctx.fillRect(150, 130, 20, 20);
+                ctx.fillRect(170, 130, 20, 20);
+                
+                // Text
+                ctx.font = '20px monospace';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillText('TETRIS', 115, 180);
+                
+                // Score
+                ctx.font = '12px monospace';
+                ctx.fillText('Score: 1500', 210, 40);
+                ctx.fillText('Level: 5', 210, 60);
+                ctx.fillText('Lines: 25', 210, 80);
+                
+                // Next piece preview
+                ctx.strokeRect(210, 100, 60, 60);
+                ctx.fillStyle = '#FF00FF'; // Magenta
+                ctx.fillRect(220, 110, 20, 20);
+                ctx.fillRect(240, 110, 20, 20);
+                ctx.fillRect(220, 130, 20, 20);
+                ctx.fillRect(220, 150, 20, 20);
+                
+                currentImageName = 'tetris-game.png';
+            });
+            
+            // Generate Space Invaders game preview
+            document.getElementById('generateSpaceInvaders').addEventListener('click', function() {
+                // Black background
+                ctx.fillStyle = '#000000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Aliens (3 rows of 5)
+                // Row 1 - top aliens
+                ctx.fillStyle = '#FF00FF'; // Magenta
+                for (let i = 0; i < 5; i++) {
+                    ctx.fillRect(70 + i * 30, 30, 20, 10);
+                    ctx.fillRect(75 + i * 30, 40, 10, 10);
+                    ctx.fillRect(70 + i * 30, 40, 5, 5);
+                    ctx.fillRect(85 + i * 30, 40, 5, 5);
+                }
+                
+                // Row 2 - middle aliens
+                ctx.fillStyle = '#00FF00'; // Green
+                for (let i = 0; i < 5; i++) {
+                    ctx.fillRect(70 + i * 30, 60, 20, 15);
+                    ctx.fillRect(65 + i * 30, 65, 5, 5);
+                    ctx.fillRect(90 + i * 30, 65, 5, 5);
+                }
+                
+                // Row 3 - bottom aliens
+                ctx.fillStyle = '#00FFFF'; // Cyan
+                for (let i = 0; i < 5; i++) {
+                    ctx.fillRect(70 + i * 30, 90, 20, 10);
+                    ctx.fillRect(65 + i * 30, 85, 5, 15);
+                    ctx.fillRect(90 + i * 30, 85, 5, 15);
+                }
+                
+                // Player ship
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(140, 170, 20, 10);
+                ctx.fillRect(145, 160, 10, 10);
+                
+                // Bullets
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(150, 150, 2, 10);
+                ctx.fillRect(120, 100, 2, 10);
+                ctx.fillRect(180, 120, 2, 10);
+                
+                // Shields
+                ctx.fillStyle = '#00FF00';
+                for (let i = 0; i < 3; i++) {
+                    ctx.fillRect(60 + i * 70, 140, 30, 10);
+                }
+                
+                // Text
+                ctx.font = '16px monospace';
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillText('SPACE INVADERS', 80, 20);
+                
+                // Score
+                ctx.font = '12px monospace';
+                ctx.fillText('SCORE: 1250', 10, 15);
+                ctx.fillText('LIVES: 3', 230, 15);
+                
+                // Border
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+                
+                currentImageName = 'space-invaders-game.png';
+            });
+            
+            // Download current image
+            document.getElementById('downloadImage').addEventListener('click', function() {
+                if (!currentImageName) {
+                    alert('Please generate an image first!');
+                    return;
+                }
+                
+                const dataURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = currentImageName;
+                link.href = dataURL;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+            
+            // Generate Snake image by default
+            document.getElementById('generateSnake').click();
+        });
+    </script>
+</body>
+</html>
