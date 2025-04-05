@@ -1,11 +1,87 @@
-// Snake Game
+// Snake Game with auto-canvas creation
+// Wait for full page load before initializing
+window.addEventListener('load', function() {
+  console.log("Window loaded - Starting Snake Game");
+  
+  // Remove loading screen if exists
+  const loadingScreen = document.querySelector('.loading-screen');
+  if (loadingScreen) {
+    loadingScreen.style.display = 'none';
+    console.log("Loading screen removed");
+  }
+  
+  // Create game container
+  const gameContainer = document.createElement('div');
+  gameContainer.id = 'snake-game-container';
+  gameContainer.style.maxWidth = '800px';
+  gameContainer.style.margin = '0 auto';
+  gameContainer.style.padding = '20px';
+  
+  // Create canvas first (at the top)
+  const canvas = document.createElement('canvas');
+  canvas.id = 'gameCanvas';
+  canvas.width = 600;
+  canvas.height = 400;
+  canvas.style.display = 'block';
+  canvas.style.margin = '0 auto';
+  canvas.style.backgroundColor = '#000';
+  canvas.style.border = '2px solid #fff';
+  
+  // Create score element
+  const scoreElement = document.createElement('div');
+  scoreElement.id = 'score';
+  scoreElement.style.textAlign = 'center';
+  scoreElement.style.margin = '10px auto';
+  scoreElement.style.fontSize = '24px';
+  scoreElement.style.color = '#fff';
+  scoreElement.textContent = 'Score: 0';
+  
+  // Create instructions (after the game)
+  const instructionsDiv = document.createElement('div');
+  instructionsDiv.style.textAlign = 'center';
+  instructionsDiv.style.margin = '20px auto';
+  instructionsDiv.style.padding = '10px';
+  instructionsDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+  instructionsDiv.style.color = '#fff';
+  instructionsDiv.style.borderRadius = '5px';
+  instructionsDiv.innerHTML = `
+    <h3>How to Play Snake</h3>
+    <p>Use the WASD keys to control the snake:</p>
+    <p>W: Move Up</p>
+    <p>A: Move Left</p>
+    <p>S: Move Down</p>
+    <p>D: Move Right</p>
+    <p>Space: Pause/Resume</p>
+    <p>F5: Restart Game</p>
+    <p>Eat the red food to grow longer, but don't hit the walls or yourself!</p>
+  `;
+  
+  // Add elements to container in the desired order
+  gameContainer.appendChild(canvas);
+  gameContainer.appendChild(scoreElement);
+  gameContainer.appendChild(instructionsDiv);
+  
+  // Add container to document at the beginning
+  const mainContent = document.querySelector('main') || document.body;
+  if (mainContent.firstChild) {
+    mainContent.insertBefore(gameContainer, mainContent.firstChild);
+  } else {
+    mainContent.appendChild(gameContainer);
+  }
+  
+  // Initialize the game
+  const game = new SnakeGame(canvas);
+});
+
+// Snake Game Class
 class SnakeGame {
-  constructor(canvasId) {
-    this.canvas = document.getElementById(canvasId);
+  constructor(canvas) {
+    this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
     this.gridSize = 20;
     this.snake = [{x: 10, y: 10}]; // Start with a single segment
     this.direction = 'right';
+    this.nextDirection = 'right';
     this.food = this.generateFood();
     this.score = 0;
     this.gameOver = false;
@@ -57,16 +133,16 @@ class SnakeGame {
       if (Math.abs(dx) > Math.abs(dy)) {
         // Horizontal swipe
         if (dx > 0 && this.direction !== 'left') {
-          this.direction = 'right';
+          this.nextDirection = 'right';
         } else if (dx < 0 && this.direction !== 'right') {
-          this.direction = 'left';
+          this.nextDirection = 'left';
         }
       } else {
         // Vertical swipe
         if (dy > 0 && this.direction !== 'up') {
-          this.direction = 'down';
+          this.nextDirection = 'down';
         } else if (dy < 0 && this.direction !== 'down') {
-          this.direction = 'up';
+          this.nextDirection = 'up';
         }
       }
       
@@ -97,19 +173,22 @@ class SnakeGame {
   }
   
   handleKeyPress(e) {
-    // Prevent default action for arrow keys to avoid page scrolling
-    if ([37, 38, 39, 40, 32].includes(e.keyCode)) {
-      e.preventDefault();
-    }
-    
     // Pause/resume with spacebar
-    if (e.keyCode === 32) { // Space
+    if (e.key === ' ' || e.keyCode === 32) { // Space
+      e.preventDefault();
       this.paused = !this.paused;
       return;
     }
     
+    // Restart game with F5
+    if (e.key === 'F5' || e.keyCode === 116) {
+      e.preventDefault();
+      this.resetGame();
+      return;
+    }
+    
     // Restart game if game over
-    if (this.gameOver && e.keyCode === 13) { // Enter
+    if (this.gameOver && (e.key === 'Enter' || e.keyCode === 13)) { // Enter
       this.resetGame();
       return;
     }
@@ -117,25 +196,28 @@ class SnakeGame {
     // If game is paused or over, don't process movement
     if (this.paused || this.gameOver) return;
     
-    // Handle direction changes
-    switch (e.keyCode) {
-      case 37: // Left
-        if (this.direction !== 'right') this.direction = 'left';
+    // Handle direction changes with WASD keys
+    switch (e.key.toLowerCase()) {
+      case 'a': // Left
+        if (this.direction !== 'right') this.nextDirection = 'left';
         break;
-      case 38: // Up
-        if (this.direction !== 'down') this.direction = 'up';
+      case 'w': // Up
+        if (this.direction !== 'down') this.nextDirection = 'up';
         break;
-      case 39: // Right
-        if (this.direction !== 'left') this.direction = 'right';
+      case 'd': // Right
+        if (this.direction !== 'left') this.nextDirection = 'right';
         break;
-      case 40: // Down
-        if (this.direction !== 'up') this.direction = 'down';
+      case 's': // Down
+        if (this.direction !== 'up') this.nextDirection = 'down';
         break;
     }
   }
   
   moveSnake() {
     if (this.paused || this.gameOver) return;
+    
+    // Update direction
+    this.direction = this.nextDirection;
     
     // Get current head position
     const head = {...this.snake[0]};
@@ -169,6 +251,7 @@ class SnakeGame {
     if (head.x === this.food.x && head.y === this.food.y) {
       // Increase score
       this.score += 10;
+      this.updateScore();
       
       // Increase speed slightly
       if (this.speed > 50) {
@@ -180,6 +263,13 @@ class SnakeGame {
     } else {
       // Remove tail segment if no food was eaten
       this.snake.pop();
+    }
+  }
+  
+  updateScore() {
+    const scoreElement = document.getElementById('score');
+    if (scoreElement) {
+      scoreElement.textContent = `Score: ${this.score}`;
     }
   }
   
@@ -257,6 +347,32 @@ class SnakeGame {
       this.ctx.font = '16px "Press Start 2P", monospace';
       this.ctx.fillText(`Final Score: ${this.score}`, this.canvas.width / 2, this.canvas.height / 2 + 20);
       this.ctx.fillText('Press ENTER to restart', this.canvas.width / 2, this.canvas.height / 2 + 60);
+      
+      // Add Pi Network payment option
+      this.ctx.fillStyle = '#00FFFF';
+      this.ctx.fillText('Or buy extra lives with Pi', this.canvas.width / 2, this.canvas.height / 2 + 100);
+      
+      // Create buy button if it doesn't exist
+      if (!document.getElementById('snake-buy-lives-button')) {
+        const buyButton = document.createElement('button');
+        buyButton.textContent = 'Buy Extra Lives (π1.00)';
+        buyButton.id = 'snake-buy-lives-button';
+        buyButton.style.display = 'block';
+        buyButton.style.margin = '20px auto';
+        buyButton.style.padding = '10px 20px';
+        buyButton.style.backgroundColor = '#333';
+        buyButton.style.color = '#FFF';
+        buyButton.style.border = '2px solid #FFF';
+        buyButton.style.borderRadius = '5px';
+        buyButton.style.fontSize = '16px';
+        buyButton.style.cursor = 'pointer';
+        buyButton.onclick = this.buyExtraLives.bind(this);
+        
+        const gameContainer = document.getElementById('snake-game-container');
+        if (gameContainer) {
+          gameContainer.appendChild(buyButton);
+        }
+      }
     }
     
     // Draw pause message
@@ -292,13 +408,51 @@ class SnakeGame {
   }
   
   resetGame() {
+    // Remove buy button if exists
+    const buyButton = document.getElementById('snake-buy-lives-button');
+    if (buyButton) {
+      buyButton.remove();
+    }
+    
     this.snake = [{x: 10, y: 10}];
     this.direction = 'right';
+    this.nextDirection = 'right';
     this.food = this.generateFood();
     this.score = 0;
     this.gameOver = false;
     this.paused = false;
     this.speed = 150;
+    this.updateScore();
+  }
+  
+  buyExtraLives() {
+    console.log("Buy extra lives function called");
+    
+    if (typeof window.RetroArcade !== 'undefined' && typeof window.RetroArcade.handlePiPayment === 'function') {
+      console.log("Initiating Pi payment for extra lives");
+      
+      window.RetroArcade.handlePiPayment(
+        1.0, // amount
+        "Extra lives for Snake game", // memo
+        "extra_lives", // itemType
+        "snake", // gameId
+        function(payment) {
+          console.log("Payment successful:", payment);
+          // Reset game with extra lives
+          this.resetGame();
+        }.bind(this),
+        function(error) {
+          console.error("Payment error:", error);
+          alert("Payment failed: " + error.message);
+        }
+      );
+    } else {
+      console.warn("Pi payment function not available");
+      alert("Pi payments are only available in the Pi Browser. For testing, game will be reset for free!");
+      
+      // For testing outside Pi Browser, reset game for free
+      this.resetGame();
+    }
   }
   
   // Public methods for external control
@@ -315,9 +469,4 @@ class SnakeGame {
   }
 }
 
-// Export the game class
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  module.exports = SnakeGame;
-} else {
-  window.SnakeGame = SnakeGame;
-}
+console.log("Snake game script with WASD controls loaded");
