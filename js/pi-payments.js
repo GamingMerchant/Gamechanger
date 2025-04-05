@@ -1,4 +1,4 @@
-const BACKEND_URL = 'https://your-backend-url.onrender.com'; // Replace with your actual backend URL
+const BACKEND_URL = 'https://backend-server-xcnm.onrender.com'; // Replace with your actual backend URL
 
 // Function to handle Pi Network payments
 function makePiPayment(amount, memo, metadata) {
