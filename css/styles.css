@@ -498,6 +498,7 @@ footer {
   padding: 20px;
   margin: 30px 0;
   box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+  text-align: center; /* Added to center all content */
 }
 
 .high-scores h2 {
@@ -509,6 +510,7 @@ footer {
 .scores-table {
   width: 100%;
   border-collapse: collapse;
+  margin: 0 auto; /* Added to center the table */
 }
 
 .scores-table th,
@@ -529,6 +531,24 @@ footer {
 
 .scores-table tr:hover td {
   background-color: rgba(0, 255, 0, 0.1);
+}
+
+/* Fix for scoreboard text alignment */
+.scoreboard {
+  text-align: center;
+}
+
+.scoreboard table,
+#high-scores table {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.scoreboard th,
+.scoreboard td {
+  text-align: center;
+  padding: 8px;
 }
 
 /* Glitch effect for text */
