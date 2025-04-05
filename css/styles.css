@@ -507,29 +507,37 @@ footer {
   text-align: center;
 }
 
-.scores-table {
+/* Direct targeting of the table in high-scores section */
+#high-scores table,
+.high-scores table {
   width: 100%;
   border-collapse: collapse;
-  margin: 0 auto; /* Added to center the table */
+  margin: 0 auto; /* Center the table */
+  text-align: center; /* Center text in cells */
 }
 
-.scores-table th,
-.scores-table td {
+#high-scores th,
+#high-scores td,
+.high-scores th,
+.high-scores td {
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid #0f0;
   font-size: 0.8rem;
 }
 
-.scores-table th {
+#high-scores th,
+.high-scores th {
   color: #0ff;
 }
 
-.scores-table tr:last-child td {
+#high-scores tr:last-child td,
+.high-scores tr:last-child td {
   border-bottom: none;
 }
 
-.scores-table tr:hover td {
+#high-scores tr:hover td,
+.high-scores tr:hover td {
   background-color: rgba(0, 255, 0, 0.1);
 }
 
@@ -538,17 +546,18 @@ footer {
   text-align: center;
 }
 
-.scoreboard table,
-#high-scores table {
+.scoreboard table {
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  border-collapse: collapse;
 }
 
 .scoreboard th,
 .scoreboard td {
   text-align: center;
   padding: 8px;
+  border-bottom: 1px solid #0f0;
 }
 
 /* Glitch effect for text */
